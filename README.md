@@ -12,9 +12,8 @@ Compares performance between single-threaded, multi-threaded, and producer-consu
 - **Generic Design:** Type-safe, reusable components
 
 
-# ===============================================================================  
-PERFORMANCE COMPARISON:  
-# ===============================================================================  
+# PERFORMANCE COMPARISON:  
+
 
 | Processing Method       | Time (ms) | Memory Usage   | Throughput   | Speedup Factor |
 |-------------------------|-----------|----------------|--------------|----------------|
@@ -24,9 +23,9 @@ PERFORMANCE COMPARISON:
 
 ---
 
-# DETAILED ANALYSIS  
+## DETAILED ANALYSIS  
 
-## Single-threaded Processing  
+### Single-threaded Processing  
 - **Chunks processed:** 532  
 - **Unique words found:** 9  
 - **Processing time:** 1.967 seconds  
@@ -35,7 +34,7 @@ PERFORMANCE COMPARISON:
 
 ---
 
-## Multi-threaded Processing (4 threads)  
+###  Multi-threaded Processing (4 threads)  
 - **Chunks processed:** 532  
 - **Unique words found:** 9  
 - **Processing time:** 0.599 seconds  
@@ -46,7 +45,7 @@ PERFORMANCE COMPARISON:
 
 ---
 
-## Producer-Consumer Pattern (4 threads)  
+###  Producer-Consumer Pattern (4 threads)  
 - **Lines read by producer:** 531,615  
 - **Chunks processed:** 532 (**100% success rate**)  
 - **Failed chunks:** 0  
