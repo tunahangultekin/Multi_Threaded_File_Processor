@@ -32,7 +32,7 @@ public class TestFileGenerator {
             long written=0;
 
             while (written<targetSizeBytes){
-                int lineWordCount=10+random.nextInt(6);// Her satırda 10-15 arası olsun diye.
+                int lineWordCount=10+random.nextInt(6);// Her satırda 10-15 kelime olmalı.
 
                 StringBuilder line=new StringBuilder();
 
@@ -40,7 +40,7 @@ public class TestFileGenerator {
                     String word=WORDS[random.nextInt(WORDS.length)];
                     line.append(word);
 
-                    if (i<lineWordCount-1){// Kelimeler arasına boşluk ekle son kelimeye ekleme
+                    if (i<lineWordCount-1){// Kelimeler arasına boşluk ekle,son kelime hariç.
                         line.append(" ");
                     }
 

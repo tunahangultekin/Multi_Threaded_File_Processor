@@ -24,22 +24,22 @@ public class SingleThreadedProcessor {
         try {
             metrics.startMeasurement(filename, 1); // 1 thread
 
-            // 1️⃣ Dosyayı chunk'lara böl
+            // Dosyayı chunk'lara böl
             List<FileChunk<String>> chunks = chunker.createChunks(filename);
             System.out.println("Toplam chunk sayısı: " + chunks.size());
 
-            // 2️⃣ Her chunk'ı sırayla işle
+            // Her chunk'ı sırayla işle
             List<ProcessingResult<Integer>> results = new ArrayList<>();
             for (FileChunk chunk : chunks) {
                 ProcessingResult<Integer> result = processor.processChunk(chunk);
                 results.add(result);
             }
 
-            // 3️⃣ Sonuçları birleştir
+            //Sonuçları birleştir
             Map<String, Integer> finalResult = mergeResults(results);
             System.out.println("Toplam farklı kelime sayısı: " + finalResult.size());
 
-            // 4️⃣ Metrics bitir ve rapor yazdır
+            // Metrics bitir ve rapor yazdır
             metrics.endMeasurement();
             metrics.printReport();
 

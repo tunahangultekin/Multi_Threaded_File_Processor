@@ -17,8 +17,8 @@ public class ProducerConsumerProcessor {
 
     // Configuration
     private final int queueSize;
-    private final int consumerCount;  // DÜZELTME: final ekle ve constructor'da set et
-    private final int chunkSize;      // DÜZELTME: final ekle ve constructor'da set et
+    private final int consumerCount;
+    private final int chunkSize;
 
     // Components
     private final BlockingQueue<FileChunk<String>> queue;
@@ -34,16 +34,16 @@ public class ProducerConsumerProcessor {
     private ExecutorService producerExecutor;
     private ExecutorService consumerExecutor;
 
-    // DÜZELTME: Constructor 3 parametre alacak şekilde değiştirildi
+
     public ProducerConsumerProcessor(int queueSize, int consumerCount, int chunkSize) {
-        // DÜZELTME: Validation eklendi
+
         if (queueSize <= 0) throw new IllegalArgumentException("Queue size must be > 0");
         if (consumerCount <= 0) throw new IllegalArgumentException("Consumer count must be > 0");
         if (chunkSize <= 0) throw new IllegalArgumentException("Chunk size must be > 0");
 
         this.queueSize = queueSize;
-        this.consumerCount = consumerCount;  // DÜZELTME: Parameter'dan al
-        this.chunkSize = chunkSize;          // DÜZELTME: Parameter'dan al
+        this.consumerCount = consumerCount;
+        this.chunkSize = chunkSize;
 
         // Thread-safe collections
         this.queue = new ArrayBlockingQueue<>(queueSize);
@@ -53,16 +53,11 @@ public class ProducerConsumerProcessor {
         this.processor = new WordProcessor();
         this.metrics = new PerformanceMetrics();
 
-        // Debug output
-        //System.out.println("ProducerConsumerProcessor created: queue=" + queueSize +
-         //       ", consumers=" + consumerCount + ", chunkSize=" + chunkSize);
+
     }
 
     public void processFile(String filename) throws FileProcessingException {
-       // System.out.println("\n=== Producer-Consumer Processing ===");
-        //System.out.println("Queue Size: " + queueSize);
-        //System.out.println("Consumer Count: " + consumerCount);
-        //System.out.println("Chunk Size: " + chunkSize + " lines");
+
 
         // Performance monitoring başlat
         metrics.startMeasurement(filename, consumerCount);
@@ -84,13 +79,13 @@ public class ProducerConsumerProcessor {
 
             // Producer'ın bitmesini bekle
             producerFuture.get();
-           // System.out.println("Producer finished - all chunks sent to queue");
+
 
             // Consumer'ların bitmesini bekle
             for (Future<?> future : consumerFutures) {
                 future.get();
             }
-            //System.out.println("All consumers finished processing");
+
 
             // Sonuçları işle
             processResults();
@@ -117,17 +112,17 @@ public class ProducerConsumerProcessor {
 
         @Override
         public void run() {
-           // System.out.println("Producer started - reading file: " + filename);
+
 
             try {
-                // Dosyayı oku
+
                 List<String> allLines = Files.readAllLines(Path.of(filename));
                 System.out.println("Producer read " + allLines.size() + " lines");
 
                 // Chunk'lara böl ve queue'ya ekle
                 int chunkId = 1;
                 int totalChunks = (int) Math.ceil((double) allLines.size() / chunkSize);
-             //   System.out.println("Producer creating " + totalChunks + " chunks");
+
 
                 for (int i = 0; i < allLines.size(); i += chunkSize) {
                     // Chunk boundaries
@@ -147,15 +142,14 @@ public class ProducerConsumerProcessor {
 
                     // Queue'ya ekle (blocking operation)
                     queue.put(chunk);
-                  //  System.out.println("Producer sent chunk " + chunk.getChunkId() +
-                    //        " to queue (" + chunkLines.size() + " lines)");
+
                 }
 
                 // Poison pills gönder (her consumer için bir tane)
                 for (int i = 0; i < consumerCount; i++) {
                     queue.put(POISON_PILL);
                 }
-                //System.out.println("Producer sent " + consumerCount + " poison pills");
+
 
             } catch (IOException e) {
                 System.err.println("Producer error reading file: " + e.getMessage());
@@ -178,7 +172,7 @@ public class ProducerConsumerProcessor {
 
         @Override
         public void run() {
-            //System.out.println("Consumer-" + consumerId + " started");
+
 
             int processedChunks = 0;
 
@@ -189,14 +183,10 @@ public class ProducerConsumerProcessor {
 
                     // Poison pill kontrolü
                     if (chunk == POISON_PILL) {
-                      //  System.out.println("Consumer-" + consumerId +
-                        //        " received poison pill - shutting down");
+
                         break;
                     }
 
-                    // Chunk'ı işle
-                    //System.out.println("Consumer-" + consumerId +
-                      //      " processing chunk " + chunk.getChunkId());
 
                     ProcessingResult<Integer> result = processor.processChunk(chunk);
 
@@ -204,9 +194,6 @@ public class ProducerConsumerProcessor {
                     results.add(result);
                     processedChunks++;
 
-                   // System.out.println("Consumer-" + consumerId +
-                     //       " finished chunk " + chunk.getChunkId() +
-                       //     " in " + result.getProcessingTime() + "ms");
                 }
 
             } catch (InterruptedException e) {
@@ -214,8 +201,7 @@ public class ProducerConsumerProcessor {
                 Thread.currentThread().interrupt();
             }
 
-            //System.out.println("Consumer-" + consumerId + " processed " +
-                    //processedChunks + " chunks total");
+
         }
     }
 

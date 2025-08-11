@@ -12,19 +12,13 @@ public class WordProcessor {
         long startTime = System.currentTimeMillis();
 
         try {
-            // Debug output
+
             String data = chunk.getData();
-           // System.out.println("Processing chunk " + chunk.getChunkId() +
-             //       " - data length: " + (data != null ? data.length() : "null"));
 
             // Chunk'taki kelimeleri say
             Map<String, Integer> wordCount = countWords(data);
 
             long endTime = System.currentTimeMillis();
-
-            // Debug output
-            //System.out.println("Chunk " + chunk.getChunkId() +
-              //      " processed: " + wordCount.size() + " unique words");
 
             return new ProcessingResult<>(
                     chunk.getChunkId(),
@@ -52,8 +46,7 @@ public class WordProcessor {
             return wordCount;
         }
 
-        // Debug
-        //System.out.println("Processing text length: " + data.length());
+
 
         // Noktalama işaretlerini temizleyip kelimelere ayır
         String[] words = data
@@ -61,7 +54,6 @@ public class WordProcessor {
                 .toLowerCase()
                 .split("\\s+");
 
-       // System.out.println("Found " + words.length + " words (including empty)");
 
         int validWords = 0;
         for (String word : words) {
@@ -71,7 +63,7 @@ public class WordProcessor {
             }
         }
 
-        //System.out.println("Valid words: " + validWords + ", Unique words: " + wordCount.size());
+
         return wordCount;
     }
 }

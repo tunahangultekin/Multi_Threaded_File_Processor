@@ -27,30 +27,30 @@ public class MultiThreadedProcessor {
         try {
             metrics.startMeasurement(filename, threadPoolSize);
 
-            // 1️⃣ Dosyayı chunk'lara böl
+            // Dosyayı chunk'lara böl
             List<FileChunk<String>> chunks = chunker.createChunks(filename);
             System.out.println("Toplam chunk sayısı: " + chunks.size());
 
-            // 2️⃣ Callable görev listesi oluştur
+            // Callable görev listesi oluştur
             List<Callable<ProcessingResult<Integer>>> tasks = new ArrayList<>();
             for (FileChunk chunk : chunks) {
                 tasks.add(() -> processor.processChunk(chunk));
             }
 
-            // 3️⃣ Tüm görevleri çalıştır
+            // Tüm görevleri çalıştır
             List<Future<ProcessingResult<Integer>>> futures = executor.invokeAll(tasks);
 
-            // 4️⃣ Future sonuçlarını topla
+            // Future sonuçlarını topla
             List<ProcessingResult<Integer>> results = new ArrayList<>();
             for (Future<ProcessingResult<Integer>> future : futures) {
                 results.add(future.get());
             }
 
-            // 5️⃣ Sonuçları birleştir
+            // Sonuçları birleştir
             Map<String, Integer> finalResult = mergeResults(results);
             System.out.println("Toplam farklı kelime sayısı: " + finalResult.size());
 
-            // 6️⃣ Metrics bitir ve rapor yazdır
+            // Metrics bitir ve rapor yazdır
             metrics.endMeasurement();
             metrics.printReport();
 
