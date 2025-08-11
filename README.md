@@ -1,28 +1,12 @@
 # Multi-threaded File Processor
 
-## 🎯 Overview
+## Overview
 A Java application demonstrating different multi-threading approaches for processing large text files. 
 Compares performance between single-threaded, multi-threaded, and producer-consumer patterns.
 
-## ✨ Features
+## Features
 - **Single-threaded Processing:** Baseline performance measurement
 - **Multi-threaded Processing:** ExecutorService with configurable thread pool
 - **Producer-Consumer Pattern:** BlockingQueue-based implementation
 - **Performance Metrics:** Memory usage and processing time tracking
 - **Generic Design:** Type-safe, reusable components
-
-## 🚀 Quick Start
-
-### Prerequisites
-- Java 11 or higher
-- IDE (IntelliJ IDEA, Eclipse, or VS Code)
-
-### Running the Project
-```bash
-# Clone the repository
-git clone https://github.com/yourusername/multi-threaded-file-processor.git
-
-# Compile and run
-cd multi-threaded-file-processor/src/main/java
-javac com/fileprocessor/*.java com/fileprocessor/**/*.java
-java com.fileprocessor.Main
